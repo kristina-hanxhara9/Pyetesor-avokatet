@@ -1,0 +1,166 @@
+import type { Question } from './types'
+
+export const QUESTIONS: Question[] = [
+  {
+    id: 1,
+    emoji: '1️⃣',
+    text: 'Si e kërkoni legjislacionin dhe vendimet gjyqësore?',
+    type: 'checkbox',
+    options: [
+      { value: 'QBZ', label: 'Qendra e Botimeve Zyrtare (QBZ)' },
+      { value: 'Platforma private', label: 'Platforma private ligjore' },
+      { value: 'Google', label: 'Google' },
+      { value: 'Arkiva personale', label: 'Arkiva personale' },
+      { value: 'Kolege / rrjet profesional', label: 'Kolege / rrjet profesional' },
+      { value: 'Tjetër_1', label: 'Tjetër', isTjetreOption: true },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 2,
+    emoji: '2️⃣',
+    text: 'Sa kohë shpenzoni mesatarisht për të gjetur ligje ose vendime relevante?',
+    type: 'radio',
+    options: [
+      { value: 'Më pak se 15 minuta', label: 'Më pak se 15 minuta' },
+      { value: '15–30 minuta', label: '15–30 minuta' },
+      { value: '30–60 minuta', label: '30–60 minuta' },
+      { value: '1–2 orë', label: '1–2 orë' },
+      { value: 'Më shumë se 2 orë', label: 'Më shumë se 2 orë' },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 3,
+    emoji: '3️⃣',
+    text: 'Sa shpesh ju duhet të krahasoni disa ligje ose vendime për një çështje?',
+    type: 'radio',
+    options: [
+      { value: 'Rrallë', label: 'Rrallë' },
+      { value: 'Ndonjëherë', label: 'Ndonjëherë' },
+      { value: 'Shpesh', label: 'Shpesh' },
+      { value: 'Shumë shpesh', label: 'Shumë shpesh' },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 4,
+    emoji: '4️⃣',
+    text: 'Në një ditë normale, për çfarë shpenzoni më shumë kohë?',
+    type: 'checkbox',
+    options: [
+      { value: 'Kërkim ligjor', label: 'Kërkim ligjor' },
+      { value: 'Hartim kontratash', label: 'Hartim kontratash' },
+      { value: 'Hartim padish / dokumente gjyqësore', label: 'Hartim padish / dokumente gjyqësore' },
+      { value: 'Komunikim me klientë', label: 'Komunikim me klientë' },
+      { value: 'Detyra administrative', label: 'Detyra administrative' },
+      { value: 'Përgatitje për gjyq', label: 'Përgatitje për gjyq' },
+      { value: 'Tjetër_4', label: 'Tjetër', isTjetreOption: true },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 5,
+    emoji: '5️⃣',
+    text: 'Cilat detyra janë më të përsëritshme në punën tuaj?',
+    type: 'checkbox',
+    options: [
+      { value: 'Hartim dokumentesh standarde', label: 'Hartim dokumentesh standarde' },
+      { value: 'Rishikim kontratash', label: 'Rishikim kontratash' },
+      { value: 'Përgjigje ndaj pyetjeve bazike të klientëve', label: 'Përgjigje ndaj pyetjeve bazike të klientëve' },
+      { value: 'Kërkim i referencave ligjore', label: 'Kërkim i referencave ligjore' },
+      { value: 'Plotësim formularësh', label: 'Plotësim formularësh' },
+      { value: 'Tjetër_5', label: 'Tjetër', isTjetreOption: true },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 6,
+    emoji: '6️⃣',
+    text: 'Sa kohë ju duhet për të përgatitur një draft standard (p.sh. kontratë, padi)?',
+    type: 'radio',
+    options: [
+      { value: 'Më pak se 1 orë', label: 'Më pak se 1 orë' },
+      { value: '1–2 orë', label: '1–2 orë' },
+      { value: '2–4 orë', label: '2–4 orë' },
+      { value: 'Më shumë se 4 orë', label: 'Më shumë se 4 orë' },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 7,
+    emoji: '7️⃣',
+    text: 'A përdorni modele (templates)?',
+    type: 'radio',
+    options: [
+      { value: 'Po', label: 'Po' },
+      { value: 'Jo', label: 'Jo' },
+    ],
+    subQuestion: {
+      label: 'Sa shpesh i përditësoni?',
+      type: 'radio',
+      triggerValue: 'Po',
+      options: [
+        { value: 'Rrallë', label: 'Rrallë' },
+        { value: '1 herë në vit', label: '1 herë në vit' },
+        { value: 'Disa herë në vit', label: 'Disa herë në vit' },
+        { value: 'Rregullisht sipas ndryshimeve ligjore', label: 'Rregullisht sipas ndryshimeve ligjore' },
+      ],
+    },
+    allowVoice: true,
+  },
+  {
+    id: 8,
+    emoji: '8️⃣',
+    text: 'Cilat detyra do të dëshironit t\'ju merrnin më pak kohë?',
+    type: 'checkbox',
+    options: [
+      { value: 'Kërkim ligjor', label: 'Kërkim ligjor' },
+      { value: 'Hartim dokumentesh', label: 'Hartim dokumentesh' },
+      { value: 'Rishikim kontratash', label: 'Rishikim kontratash' },
+      { value: 'Komunikim fillestar me klientë', label: 'Komunikim fillestar me klientë' },
+      { value: 'Organizim dokumentacioni', label: 'Organizim dokumentacioni' },
+      { value: 'Tjetër_8', label: 'Tjetër', isTjetreOption: true },
+    ],
+    allowVoice: true,
+  },
+  {
+    id: 9,
+    emoji: '9️⃣',
+    text: 'A përdorni mjete me Inteligjencë Artificiale (AI)?',
+    type: 'radio',
+    options: [
+      { value: 'Po', label: 'Po' },
+      { value: 'Jo', label: 'Jo' },
+    ],
+    subQuestion: {
+      label: 'Për çfarë i përdorni?',
+      type: 'checkbox',
+      triggerValue: 'Po',
+      options: [
+        { value: 'Kërkim informacioni', label: 'Kërkim informacioni' },
+        { value: 'Hartim tekstesh', label: 'Hartim tekstesh' },
+        { value: 'Përkthime', label: 'Përkthime' },
+        { value: 'Përmbledhje dokumentesh', label: 'Përmbledhje dokumentesh' },
+        { value: 'Tjetër_9sub', label: 'Tjetër', isTjetreOption: true },
+      ],
+    },
+    allowVoice: true,
+  },
+  {
+    id: 10,
+    emoji: '🔟',
+    text: 'Nëse do të ekzistonte një mjet që do t\'ju kursente 5–10 orë në javë, a do ta konsideronit përdorimin e tij?',
+    type: 'radio',
+    options: [
+      { value: 'Po', label: 'Po' },
+      { value: 'Ndoshta', label: 'Ndoshta' },
+      { value: 'Jo', label: 'Jo' },
+    ],
+    allowVoice: true,
+  },
+]
+
+export const SUBMISSION_EMAIL = 'kristinazhi97@gmail.com'
+export const DRAFT_KEY = 'pyetesor-avokatet-draft'
+export const TOTAL_QUESTIONS = QUESTIONS.length
