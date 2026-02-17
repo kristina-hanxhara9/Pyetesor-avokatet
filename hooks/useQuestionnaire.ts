@@ -64,7 +64,7 @@ export interface UseQuestionnaireReturn {
   skip: () => void
   canGoNext: boolean
   isLastStep: boolean
-  buildSubmission: (respondentEmail: string) => QuestionnaireSubmission
+  buildSubmission: (respondentEmail: string, voiceUrls?: Map<number, string>) => QuestionnaireSubmission
   reset: () => void
 }
 
@@ -126,7 +126,10 @@ export function useQuestionnaire(): UseQuestionnaireReturn {
   const canGoNext = isStepValid(currentAnswer)
   const isLastStep = currentStep === TOTAL_QUESTIONS - 1
 
-  const buildSubmission = useCallback((respondentEmail: string): QuestionnaireSubmission => {
+  const buildSubmission = useCallback((
+    respondentEmail: string,
+    voiceUrls?: Map<number, string>
+  ): QuestionnaireSubmission => {
     const serialized: SerializedAnswer[] = answers.map((a, i) => ({
       questionId: a.questionId,
       questionText: QUESTIONS[i].text,
@@ -134,6 +137,7 @@ export function useQuestionnaire(): UseQuestionnaireReturn {
       subAnswer: a.subAnswer,
       tjetreText: a.tjetreText,
       voiceDurationSec: a.voiceDurationSec,
+      cloudinaryUrl: voiceUrls?.get(a.questionId),
     }))
     return {
       submittedAt: new Date().toISOString(),

@@ -43,6 +43,7 @@ export interface SerializedAnswer {
   subAnswer: string[]
   tjetreText: string
   voiceDurationSec?: number
+  cloudinaryUrl?: string
 }
 
 export type AppState = 'welcome' | 'questionnaire' | 'thankyou'

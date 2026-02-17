@@ -87,7 +87,7 @@ export function ThankYouScreen({
           </div>
         )}
 
-        {/* Voice recordings download */}
+        {/* Voice recordings */}
         {voiceRecordings.length > 0 && (
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
@@ -99,37 +99,48 @@ export function ThankYouScreen({
             <div className="divide-y divide-gray-100">
               {voiceRecordings.map(ans => {
                 const q = QUESTIONS.find(q => q.id === ans.questionId)
+                const cloudUrl = submission.answers.find(a => a.questionId === ans.questionId)?.cloudinaryUrl
                 return (
-                  <div key={ans.questionId} className="px-4 py-3 flex items-center gap-3">
-                    <div className="flex-1 min-w-0">
-                      <p className="font-sans text-xs text-gray-500 truncate">
-                        {q?.emoji} Pyetja {ans.questionId}
-                      </p>
-                      {ans.voiceDurationSec && (
-                        <p className="font-sans text-xs text-gray-400 tabular-nums">
-                          {formatDuration(ans.voiceDurationSec)}
+                  <div key={ans.questionId} className="px-4 py-3 space-y-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-sans text-xs text-gray-500 truncate">
+                          {q?.emoji} Pyetja {ans.questionId}
                         </p>
-                      )}
+                        {ans.voiceDurationSec && (
+                          <p className="font-sans text-xs text-gray-400 tabular-nums">
+                            {formatDuration(ans.voiceDurationSec)}
+                            {cloudUrl && <span className="ml-2 text-green-600">✓ ngarkuar</span>}
+                          </p>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => downloadVoice(ans.voiceBlob!, ans.questionId)}
+                        className="
+                          flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                          border border-gray-200 text-gray-600 text-xs font-sans
+                          hover:bg-gray-50 transition-colors flex-shrink-0
+                        "
+                      >
+                        <Download size={12} />
+                        Shkarko
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => downloadVoice(ans.voiceBlob!, ans.questionId)}
-                      className="
-                        flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                        bg-navy text-white text-xs font-sans font-medium
-                        hover:bg-navy-light transition-colors flex-shrink-0
-                      "
-                    >
-                      <Download size={12} />
-                      Shkarko
-                    </button>
+                    {/* Inline player — Cloudinary URL if uploaded, otherwise local blob */}
+                    <audio
+                      src={cloudUrl ?? (ans.voiceBlob ? URL.createObjectURL(ans.voiceBlob) : undefined)}
+                      controls
+                      className="w-full h-8"
+                      style={{ accentColor: '#1e3a5f' }}
+                    />
                   </div>
                 )
               })}
             </div>
             <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
               <p className="font-sans text-xs text-gray-400">
-                Skedarët ruhen si .webm (audio) — mund t'i hapni me çdo player modern.
+                Regjistrimet u ngarkuan në cloud — mund t'i dëgjoni edhe nga emaili.
               </p>
             </div>
           </div>

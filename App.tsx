@@ -8,6 +8,7 @@ import { ProgressBar } from './components/ProgressBar'
 import { QuestionCard } from './components/QuestionCard'
 import { NavigationButtons } from './components/NavigationButtons'
 import { EmailInput } from './components/EmailInput'
+import { uploadAllVoices } from './cloudinary'
 
 function downloadJSON(submission: QuestionnaireSubmission) {
   const json = JSON.stringify(submission, null, 2)
@@ -38,10 +39,14 @@ async function submitViaFormSubmit(submission: QuestionnaireSubmission): Promise
       ans.selectedOptions.join(', '),
       ans.subAnswer.length > 0 ? `(${ans.subAnswer.join(', ')})` : '',
       ans.tjetreText ? `Tjetër: ${ans.tjetreText}` : '',
-      ans.voiceDurationSec ? `[Zë: ${ans.voiceDurationSec}s]` : '',
+      ans.cloudinaryUrl
+        ? `🎙 Zë (${ans.voiceDurationSec ?? '?'}s): ${ans.cloudinaryUrl}`
+        : ans.voiceDurationSec
+        ? `[Zë: ${ans.voiceDurationSec}s — nuk u ngarkua]`
+        : '',
     ]
       .filter(Boolean)
-      .join(' ')
+      .join(' | ')
     formData.append(key, val || '(kaluar)')
   })
 
@@ -100,15 +105,32 @@ export default function App() {
   const handleSubmit = useCallback(async () => {
     setIsSubmitting(true)
     setSubmitError(null)
-    const sub = buildSubmission(respondentEmail)
-    setSubmission(sub)
-    setSubmittedAnswers([...answers])
-    setAppState('thankyou')
+    const timestamp = new Date().toISOString()
 
     try {
+      // 1. Upload all voice blobs to Cloudinary in parallel
+      const voiceResults = await uploadAllVoices(answers, timestamp)
+      const voiceUrls = new Map(voiceResults.map(r => [r.questionId, r.url]))
+
+      // 2. Build serialized submission with Cloudinary URLs embedded
+      const sub = buildSubmission(respondentEmail, voiceUrls)
+      setSubmission(sub)
+      setSubmittedAnswers([...answers])
+      setAppState('thankyou')
+
+      // 3. Send email via FormSubmit (includes clickable voice links)
       await submitViaFormSubmit(sub)
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Gabim i panjohur')
+      // If voices failed to upload, still submit without them
+      const sub = buildSubmission(respondentEmail)
+      setSubmission(sub)
+      setSubmittedAnswers([...answers])
+      setAppState('thankyou')
+      try {
+        await submitViaFormSubmit(sub)
+      } catch (emailErr) {
+        setSubmitError(emailErr instanceof Error ? emailErr.message : 'Gabim i panjohur')
+      }
     } finally {
       setIsSubmitting(false)
     }

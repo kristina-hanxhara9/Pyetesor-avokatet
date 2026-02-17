@@ -164,3 +164,7 @@ export const QUESTIONS: Question[] = [
 export const SUBMISSION_EMAIL = 'kristinazhi97@gmail.com'
 export const DRAFT_KEY = 'pyetesor-avokatet-draft'
 export const TOTAL_QUESTIONS = QUESTIONS.length
+
+// Cloudinary — only cloud name + unsigned preset are safe in client-side code
+export const CLOUDINARY_CLOUD_NAME = 'dqt1jd0g4'
+export const CLOUDINARY_UPLOAD_PRESET = 'pyetesor_zeri'
